@@ -6,10 +6,13 @@ public class SpawnAnimal : MonoBehaviour
 {
     [SerializeField] protected GameObject[] spawnPrefab;
     
-    public int m_NumberOfAnimals = 0;
+    private int m_NumberOfAnimals = 0;
 
     [SerializeField]
     protected int numberOfAnimals;
+
+    [SerializeField]
+    protected Transform parent;
     
     // Start is called before the first frame update
     void Start()
@@ -20,7 +23,8 @@ public class SpawnAnimal : MonoBehaviour
     private void Spawn(Vector3 spawnPosition)
     {
         int i = Random.Range(0, spawnPrefab.Length);
-        Instantiate(spawnPrefab[i], spawnPosition, spawnPrefab[i].transform.rotation);
+        GameObject instance = Instantiate(spawnPrefab[i],parent);
+        instance.transform.position = spawnPosition;
     }
 
     private IEnumerator AnimalSpawner()
