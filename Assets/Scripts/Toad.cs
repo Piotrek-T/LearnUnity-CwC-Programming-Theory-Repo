@@ -1,26 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
 public class Toad : Animal
 {
     private Rigidbody rb;
+
+    private SpawnAnimal m_Animal;
+    
     // Start is called before the first frame update
     void Start()
     {
         rb = GetComponent<Rigidbody>();
+        m_Animal = GameObject.Find("SpawnAnimals").GetComponent<SpawnAnimal>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        move(rb);
-    }
-
-    protected void move(Rigidbody rigBody)
-    {
-        rigBody.AddForce(0.5f,15f,0, ForceMode.Force);
-        transform.Rotate(0, Random.Range(-90, 90), 0);
+        Move(rb);
+        if (transform.position.x < -workingRange || transform.position.x > workingRange ||
+            transform.position.z < -workingRange || transform.position.z > workingRange)
+        {
+            Destroy(gameObject);
+            m_Animal.LostAnimal();
+        }
     }
 }
