@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerContoller : MonoBehaviour
@@ -11,11 +12,16 @@ public class PlayerContoller : MonoBehaviour
     
     [SerializeField]
     private float playerRange = 48;
+
+    [SerializeField] 
+    private TMP_Text scoreText;
+    private int score;
     
     // Start is called before the first frame update
     void Start()
     {
         playerRb = GetComponent<Rigidbody>();
+        score = 0;
     }
 
     // Update is called once per frame
@@ -23,6 +29,7 @@ public class PlayerContoller : MonoBehaviour
     {
         MovePlayer();
         ContrainsPlayerPosition();
+        scoreText.text = "Score: " + score;
     }
     
     void MovePlayer()
@@ -61,6 +68,24 @@ public class PlayerContoller : MonoBehaviour
         if (transform.position.x > playerRange)
         {
             transform.position = new Vector3(transform.position.x, transform.position.y, playerRange);
+        }
+    }
+    
+    private void OnCollisionEnter(Collision other)
+    {
+        if (other.gameObject.CompareTag("Animal"))
+        {
+            if (other.gameObject.name == "Toad(Clone)")
+            {
+                score += 20;
+            }
+            
+            if (other.gameObject.name == "Mouse(Clone)")
+            {
+                score += 40;
+            }
+
+            Destroy(other.gameObject);
         }
     }
 }
