@@ -1,22 +1,40 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManagement : MonoBehaviour
 {
-    public void StartGame()
+    
+    [SerializeField]
+    protected GameObject YourScore;
+
+    private int score;
+    
+    public static GameManagement Instance;
+    
+    private void Awake()
     {
-        SceneManager.LoadScene(1);
+        if (Instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        Instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+    
+    public void SetScore(TMP_Text score)
+    {
+        YourScore.GetComponent<TMP_Text>().text = "Your score is: " + score;
+    }
+    public void ActivateScoreText()
+    {
+        YourScore.SetActive(true);
     }
 
-    public void ExitGame()
-    {
-#if UNITY_EDITOR
-        EditorApplication.ExitPlaymode();
-#else
-        Application.Quit(); // original code to quit Unity player
-#endif
-    }
 }
