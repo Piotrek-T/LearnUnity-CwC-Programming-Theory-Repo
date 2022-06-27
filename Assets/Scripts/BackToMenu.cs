@@ -1,19 +1,13 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Net.Mime;
-using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class BackToMenu : MonoBehaviour
 {
-    [SerializeField] private TMP_Text score;
+    [SerializeField] private GameObject player;
 
     public void StartMenu()
     {
-        GameManagement.Instance.SetScore(score);
-        GameManagement.Instance.ActivateScoreText();
+        GameManagement.Instance.SetScore(player.GetComponent<PlayerContoller>().GetScore());
         SceneManager.LoadScene(0);
     }
 }
